@@ -9,20 +9,8 @@
 #include "Scan.h"
 #include "Attack.h"
 
-// ===== adjustable ===== //
-#if defined(SSD1306_I2C)
-  #include <Wire.h>
-  #include "src/esp8266-oled-ssd1306-4.1.0/SSD1306Wire.h"
-#elif defined(SSD1306_SPI)
-  #include <SPI.h>
-  #include "src/esp8266-oled-ssd1306-4.1.0/SSD1306Spi.h"
-#elif defined(SH1106_I2C)
-  #include <Wire.h>
-  #include "src/esp8266-oled-ssd1306-4.1.0/SH1106Wire.h"
-#elif defined(SH1106_SPI)
-  #include <SPI.h>
-  #include "src/esp8266-oled-ssd1306-4.1.0/SH1106Spi.h"
-#endif /* if defined(SSD1306_I2C) */
+#include <Wire.h>
+#include "src/esp8266-oled-ssd1306-4.1.0/SSD1306Wire.h"
 
 #ifdef RTC_DS3231
 #include "src/DS3231-1.0.3/DS3231.h"
@@ -90,23 +78,14 @@ class DisplayUI {
         Button* a    = NULL;
         Button* b    = NULL;
 
-        // ===== adjustable ===== //
-#if defined(SSD1306_I2C)
         SSD1306Wire display = SSD1306Wire(I2C_ADDR, I2C_SDA, I2C_SCL);
-#elif defined(SSD1306_SPI)
-        SSD1306Spi display = SSD1306Spi(SPI_RES, SPI_DC, SPI_CS);
-#elif defined(SH1106_I2C)
-        SH1106Wire display = SH1106Wire(I2C_ADDR, I2C_SDA, I2C_SCL);
-#elif defined(SH1106_SPI)
-        SH1106Spi display = SH1106Spi(SPI_RES, SPI_DC, SPI_CS);
-#endif /* if defined(SSD1306_I2C) */
 
         const uint8_t maxLen           = 18;
         const uint8_t lineHeight       = 12;
-        const uint8_t buttonDelay      = 250;
-        const uint8_t drawInterval     = 100; // 100ms = 10 FPS
+        const uint8_t buttonDelay      = 150;
+        const uint8_t drawInterval     = 50; // 50ms = 20 FPS
         const uint16_t scrollSpeed     = 500; // time interval in ms
-        const uint16_t screenIntroTime = 2500;
+        const uint16_t screenIntroTime = 1500;
         const uint16_t screenWidth     = 128;
         const uint16_t sreenHeight     = 64;
 

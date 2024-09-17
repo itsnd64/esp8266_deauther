@@ -7,9 +7,8 @@
 #define DEBUG_BAUD 115200
 
 // ========== CONFIGS ========== //
-#define SSD1306_I2C
 #define FLIP_DIPLAY true
-#define DISPLAY_TEXT "Hardware by DSTIKE"
+#define DISPLAY_TEXT "cumming"
 #define BUTTON_UP 12
 #define BUTTON_DOWN 13
 #define BUTTON_A 14
