@@ -176,7 +176,7 @@ namespace settings {
         data.cli.enabled     = CLI_ENABLED;
         data.cli.serial_echo = CLI_ECHO;
 
-        data.led.enabled = USE_LED;
+        data.led.enabled = false;
 
         data.display.enabled = USE_DISPLAY;
         data.display.timeout = DISPLAY_TIMEOUT;

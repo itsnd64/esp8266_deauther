@@ -529,7 +529,6 @@ void DisplayUI::setupButtons() {
     up   = new ButtonPullup(BUTTON_UP);
     down = new ButtonPullup(BUTTON_DOWN);
     a    = new ButtonPullup(BUTTON_A);
-    b    = new ButtonPullup(BUTTON_B);
 
     // === BUTTON UP === //
     up->setOnClicked([this]() {
@@ -642,32 +641,6 @@ void DisplayUI::setupButtons() {
             }
         }
     }, 800);
-
-    // === BUTTON B === //
-    b->setOnClicked([this]() {
-        scrollCounter = 0;
-        scrollTime    = currentTime;
-        buttonTime    = currentTime;
-        if (!tempOff) {
-            switch (mode) {
-                case DISPLAY_MODE::MENU:
-                    goBack();
-                    break;
-
-                case DISPLAY_MODE::PACKETMONITOR:
-                case DISPLAY_MODE::LOADSCAN:
-                    scan.stop();
-                    mode = DISPLAY_MODE::MENU;
-                    break;
-
-                case DISPLAY_MODE::CLOCK:
-                    mode = DISPLAY_MODE::MENU;
-                    display.setFont(DejaVu_Sans_Mono_12);
-                    display.setTextAlignment(TEXT_ALIGN_LEFT);
-                    break;
-            }
-        }
-    });
 }
 
 String DisplayUI::getChannel() {

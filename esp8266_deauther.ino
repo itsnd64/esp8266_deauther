@@ -42,8 +42,6 @@ Attack attack;
 CLI    cli;
 DisplayUI displayUI;
 
-simplebutton::Button* resetButton;
-
 #include "wifi.h"
 
 uint32_t autosaveTime = 0;
@@ -137,9 +135,6 @@ void setup() {
 
     // version
     prntln(DEAUTHER_VERSION);
-
-    // setup reset button
-    resetButton = new ButtonPullup(RESET_BUTTON);
 }
 
 void loop() {
@@ -167,19 +162,5 @@ void loop() {
 #ifdef HIGHLIGHT_LED
         displayUI.setupLED();
 #endif // ifdef HIGHLIGHT_LED
-    }
-
-    resetButton->update();
-    if (resetButton->holding(5000)) {
-        DISPLAY_MODE _mode = displayUI.mode;
-        displayUI.mode = DISPLAY_MODE::RESETTING;
-        displayUI.update(true);
-
-        settings::reset();
-        settings::save(true);
-
-        delay(2000);
-
-        displayUI.mode = _mode;
     }
 }

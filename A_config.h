@@ -12,9 +12,6 @@
 #define BUTTON_UP 12
 #define BUTTON_DOWN 13
 #define BUTTON_A 14
-#define BUTTON_B 255
-#define RESET_BUTTON 255
-#define USE_LED false
 #define USE_DISPLAY true
 #define DISPLAY_TIMEOUT 600
 #define AUTOSAVE_ENABLED true
