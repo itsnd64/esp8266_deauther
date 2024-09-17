@@ -46,6 +46,15 @@
 #define WEB_URL "deauth.me"
 #define ENABLE_MAC_LIST // comment out if you want to save memory
 
+#define STA_SCAN_TIME 10000
+#define ALL_SCAN_TIME 6000
+// #define ENABLE_DESELECT_ALL_OPTION
+#define ENABLE_NAME_MENU
+#define ENABLE_SSID_MENU
+// #define ENABLE_CLOCK_MENU
+
+
+
 // ======== CONSTANTS ========== //
 // Do not change these values unless you know what you're doing!
 #define DEAUTHER_VERSION "-1.0.0"

@@ -87,8 +87,9 @@ void DisplayUI::setup() {
             scan.start(SCAN_MODE_SNIFFER, 0, SCAN_MODE_OFF, 0, false, wifi_channel);
             mode = DISPLAY_MODE::PACKETMONITOR;
         });
+        #ifdef ENABLE_CLOCK_MENU
         addMenuNode(&mainMenu, D_CLOCK, &clockMenu); // CLOCK
-
+        #endif
 #ifdef HIGHLIGHT_LED
         addMenuNode(&mainMenu, D_LED, [this]() {     // LED
             highlightLED = !highlightLED;
@@ -100,7 +101,7 @@ void DisplayUI::setup() {
     // SCAN MENU
     createMenu(&scanMenu, &mainMenu, [this]() {
         addMenuNode(&scanMenu, D_SCAN_APST, [this]() { // SCAN AP + ST
-            scan.start(SCAN_MODE_ALL, 15000, SCAN_MODE_OFF, 0, true, wifi_channel);
+            scan.start(SCAN_MODE_ALL, ALL_SCAN_TIME, SCAN_MODE_OFF, 0, true, wifi_channel);
             mode = DISPLAY_MODE::LOADSCAN;
         });
         addMenuNode(&scanMenu, D_SCAN_AP, [this]() { // SCAN AP
@@ -108,7 +109,7 @@ void DisplayUI::setup() {
             mode = DISPLAY_MODE::LOADSCAN;
         });
         addMenuNode(&scanMenu, D_SCAN_ST, [this]() { // SCAN ST
-            scan.start(SCAN_MODE_STATIONS, 30000, SCAN_MODE_OFF, 0, true, wifi_channel);
+            scan.start(SCAN_MODE_STATIONS, STA_SCAN_TIME, SCAN_MODE_OFF, 0, true, wifi_channel);
             mode = DISPLAY_MODE::LOADSCAN;
         });
     });
@@ -124,9 +125,11 @@ void DisplayUI::setup() {
         addMenuNode(&showMenu, [this]() { // Names 0 [0]
             return leftRight(str(D_NAMES), (String)names.count(), maxLen - 1);
         }, &nameListMenu);
+        #ifdef ENABLE_SSID_MENU
         addMenuNode(&showMenu, [this]() { // SSIDs 0
             return leftRight(str(D_SSIDS), (String)ssids.count(), maxLen - 1);
         }, &ssidListMenu);
+        #endif
     });
 
     // AP LIST MENU
@@ -147,11 +150,14 @@ void DisplayUI::setup() {
         addMenuNode(&apListMenu, D_SELECT_ALL, [this]() { // SELECT ALL
             accesspoints.selectAll();
             changeMenu(&apListMenu);
+            goBack();
         });
+        #ifdef ENABLE_DESELECT_ALL_OPTION
         addMenuNode(&apListMenu, D_DESELECT_ALL, [this]() { // DESELECT ALL
             accesspoints.deselectAll();
             changeMenu(&apListMenu);
         });
+        #endif
         addMenuNode(&apListMenu, D_REMOVE_ALL, [this]() { // REMOVE ALL
             accesspoints.removeAll();
             goBack();
@@ -179,16 +185,18 @@ void DisplayUI::setup() {
             stations.selectAll();
             changeMenu(&stationListMenu);
         });
+        #ifdef ENABLE_DESELECT_ALL_OPTION
         addMenuNode(&stationListMenu, D_DESELECT_ALL, [this]() { // DESELECT ALL
             stations.deselectAll();
             changeMenu(&stationListMenu);
         });
+        #endif
         addMenuNode(&stationListMenu, D_REMOVE_ALL, [this]() { // REMOVE ALL
             stations.removeAll();
             goBack();
         });
     });
-
+#ifdef ENABLE_NAME_MENU
     // NAME LIST MENU
     createMenu(&nameListMenu, &showMenu, [this]() {
         // add device names to list
@@ -217,7 +225,8 @@ void DisplayUI::setup() {
             goBack();
         });
     });
-
+#endif
+#ifdef ENABLE_SSID_MENU
     // SSID LIST MENU
     createMenu(&ssidListMenu, &showMenu, [this]() {
         addMenuNode(&ssidListMenu, D_CLONE_APS, [this]() { // CLONE APs
@@ -254,7 +263,8 @@ void DisplayUI::setup() {
             goBack();
         });
     });
-
+#endif
+// FIXME: modify this
     // AP MENU
     createMenu(&apMenu, &apListMenu, [this]() {
         addMenuNode(&apMenu, [this]() {
@@ -293,6 +303,7 @@ void DisplayUI::setup() {
             goBack();
         });
     });
+// FIXME: modify this
 
     // STATION MENU
     createMenu(&stationMenu, &stationListMenu, [this]() {
